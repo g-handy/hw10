@@ -7,7 +7,7 @@ import logger from 'morgan';
 const app = express();
 const port = process.env.PORT || 8080;
 
-class PeopleServer {
+class ScoresServer {
   constructor(dburl) {
     this.dburl = dburl;
     this.app = express();
