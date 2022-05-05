@@ -40,8 +40,8 @@ class ScoresServer {
 
     this.app.get('/highestWordScores', async (req, res) => {
       try {
-        const people = await self.db.topTenWordScores();
-        res.send(JSON.stringify(people));
+        const scores = await self.db.topTenWordScores();
+        res.send(JSON.stringify(scores));
       } catch (err) {
         res.status(500).send(err);
       }
@@ -49,8 +49,8 @@ class ScoresServer {
 
     this.app.get('/highestGameScores', async (req, res) => {
       try {
-        const people = await self.db.topTenGameScores();
-        res.send(JSON.stringify(people));
+        const scores = await self.db.topTenGameScores();
+        res.send(JSON.stringify(scores));
       } catch (err) {
         res.status(500).send(err);
       }
