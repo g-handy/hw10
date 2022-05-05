@@ -20,5 +20,8 @@
   "devDependencies": {
     "@faker-js/faker": "^6.1.2",
     "copyfiles": "^2.4.1"
+  },
+  "engines": {
+    "node": "16.14.2"
   }
 }
