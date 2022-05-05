@@ -89,7 +89,7 @@ function displayWordScore(name, word, score) {
   tr.appendChild(escore);
   document.getElementById('word-scores-table').appendChild(tr);
 }
-
+/*
 async function displayScores() {
   const wordScoresRequest = await fetch('/highestWordScores');
   const wordScoresData = wordScoresRequest.ok
@@ -138,6 +138,83 @@ async function displayScores() {
     document.getElementById('game-scores-table').appendChild(tr);
   }
 }
+*/
+
+async function topwordTable(){
+  const wordScoresRequest = await fetch('/highestWordScores');
+  const scores = wordScoresRequest.ok
+    ? await wordScoresRequest.json()
+    : [];
+  const wordElement = document.getElementById('word-scores');
+  const headers = ['Name', 'Word', 'Score'];
+
+  if(document.getElementById("word-scores-table") !== undefined){
+    wordElement.innerHTML = '';
+  }
+
+  let title = document.createTextNode("Word Scores");
+  wordElement.appendChild(title);
+  const linebreak = document.createElement("br");
+  wordElement.appendChild(linebreak);
+
+    let table = document.createElement('word-scores-table');
+    let titleRow = document.createElement('tr');
+  
+    headers.forEach(titleText => {
+        let header = document.createElement('th');
+        let text = document.createTextNode(titleText);
+        header.appendChild(text);
+        titleRow.appendChild(header);
+    });
+    table.appendChild(titleRow);
+    scores.forEach(scores => {
+        let row = document.createElement('tr');
+        Object.values(scores).forEach(entry => {
+            let cell = document.createElement('td');
+            let text = document.createTextNode(entry);
+            cell.appendChild(text);
+            row.appendChild(cell);
+        })
+       table.appendChild(row);
+    });
+    wordElement.appendChild(table);
+  }
+
+async function topgameTable(){
+  const gameScoresRequest = await fetch('/highestGameScores');
+  const scores = gameScoresRequest.ok
+    ? await gameScoresRequest.json()
+    : [];
+  const gameElement = document.getElementById('game-scores');
+  const headers = ['Name', 'Score'];
+
+  let title = document.createTextNode("Game Scores");
+  gameElement.appendChild(title);
+  const linebreak = document.createElement("br");
+  gameElement.appendChild(linebreak);
+
+  let table = document.createElement('game-scores-table');
+  let titleRow = document.createElement('tr');
+
+  headers.forEach(titleText => {
+      let header = document.createElement('th');
+      let text = document.createTextNode(titleText);
+      header.appendChild(text);
+      titleRow.appendChild(header);
+  });
+  table.appendChild(titleRow);
+  scores.forEach(scores => {
+      let row = document.createElement('tr');
+      Object.values(scores).forEach(entry => {
+          let cell = document.createElement('td');
+          let text = document.createTextNode(entry);
+          cell.appendChild(text);
+          row.appendChild(cell);
+      })
+     table.appendChild(row);
+  });
+  gameElement.appendChild(table);
+}
 
 async function saveGameScore(name, score) {
   const data = JSON.stringify({ name, score });
@@ -153,7 +230,7 @@ async function saveGameScore(name, score) {
   }
 }
 
-displayScores();
+//displayScores();
 // SOLUTION END
 
 // Several changes to account for two players and dictionary.
@@ -257,19 +334,7 @@ document.getElementById('end').addEventListener('click', async () => {
     await saveGameScore(name, scores[i]);
   }
   console.log('Clicked end button');
-  displayScores();
+  topwordTable();
+  topgameTable();
+  //displayScores();
 });
-// END SOLUTION
-/** BEGIN TEMPLATE
-document.getElementById('end').addEventListener('click', async () => {
-  // TODO: Add a button whose id is `end` before you complete this method.
-  // TODO: Save the game scores to the server. You will need to use the
-  //      `POST /gameScore` endpoint to do this. We recommend you write
-  //      functions to do this for you rather than make calls to `fetch`
-  //     directly in this function. For example:
-  //
-  //     `await saveGameScore(name, score[i]);`
-  //
-  //      Where `i` is the i'th player.
-}); 
-END TEMPLATE */
