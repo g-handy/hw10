@@ -53,14 +53,14 @@ export class ScoresDatabase {
 
   async createWordScore(name, word, score) {
     const queryText =
-      'INSERT INTO wordScores (name, word, score) VALUES ($1, $2, $3) RETURNING *';
+      `INSERT INTO wordScores (name, word, score) VALUES (${name}, ${word}, ${score}) RETURNING *`;
     const res = await this.client.query(queryText, [name, word, score]);
     return res.rows;
   }
 
   async createGameScore(name, score) {
     const queryText =
-      'INSERT INTO gameScores (name, score) VALUES ($1, $2) RETURNING *';
+      `INSERT INTO gameScores (name, score) VALUES (${name}, ${score}) RETURNING *`;
     const res = await this.client.query(queryText, [name, score]);
     return res.rows;
   }
@@ -73,11 +73,6 @@ export class ScoresDatabase {
 
   async topTenWordScores() {
     const queryText = 'SELECT * FROM wordScores ORDER BY score DESC LIMIT 10';
-    const res = await this.client.query(queryText);
-    return res.rows;
-  }
-  async allWordScores() {
-    const queryText = 'SELECT * FROM wordScores';
     const res = await this.client.query(queryText);
     return res.rows;
   }
