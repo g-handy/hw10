@@ -28,28 +28,23 @@ export class ScoresDatabase {
     this.client = await this.pool.connect();
 
     // Init the database.
-    //await this.init();
+    await this.init();
   }
-/*
   async init() {
     const queryText = `
-      create table if not exists people (
-        id varchar(30) primary key,
+      create table if not exists wordScores (
         name varchar(30),
-        age integer
+        word varchar(30),
+        score integer
       );
-      
-      insert into 
-        people(id, name, age) 
-      values 
-        ('1', 'Artemis', 19),
-        ('2', 'Parzival', 17),
-        ('3', 'John', 30),
-        ('4', 'Mia', 22);
+
+      create table if not exists gameScores (
+        name varchar(30),
+        score integer
+      );
     `;
     const res = await this.client.query(queryText);
   }
-*/
   // Close the pool.
   async close() {
     this.client.release();
